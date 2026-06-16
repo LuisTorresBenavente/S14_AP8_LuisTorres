@@ -1,0 +1,217 @@
+<div class="rutinas-container animate-fade-in">
+  <div class="section-header">
+    <span class="section-subtitle">Entrenamientos Diseñados por Expertos</span>
+    <h1 class="section-title">NUESTRAS RUTINAS</h1>
+    <p class="section-desc">Encuentra la rutina perfecta adaptada a tu nivel de experiencia y tipo de entrenamiento preferido.</p>
+  </div>
+
+  <!-- Filters and Search panel -->
+  <div class="filters-panel">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        [(ngModel)]="terminoBusqueda" 
+        (input)="aplicarFiltros()" 
+        placeholder="Buscar por nombre, ejercicio o equipamiento..."
+        class="form-control"
+      >
+      <button *ngIf="terminoBusqueda" class="btn-clear" (click)="terminoBusqueda = ''; aplicarFiltros()">×</button>
+    </div>
+
+    <div class="filters-row">
+      <!-- Nivel Filters -->
+      <div class="filter-group">
+        <label>Nivel:</label>
+        <div class="filter-buttons">
+          <button 
+            [class.active]="filtroNivel === 'Todos'" 
+            (click)="filtroNivel = 'Todos'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Todos
+          </button>
+          <button 
+            [class.active]="filtroNivel === 'Principiante'" 
+            (click)="filtroNivel = 'Principiante'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Principiante
+          </button>
+          <button 
+            [class.active]="filtroNivel === 'Intermedio'" 
+            (click)="filtroNivel = 'Intermedio'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Intermedio
+          </button>
+          <button 
+            [class.active]="filtroNivel === 'Avanzado'" 
+            (click)="filtroNivel = 'Avanzado'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Avanzado
+          </button>
+        </div>
+      </div>
+
+      <!-- Categoría Filters -->
+      <div class="filter-group">
+        <label>Categoría:</label>
+        <div class="filter-buttons">
+          <button 
+            [class.active]="filtroCategoria === 'Todas'" 
+            (click)="filtroCategoria = 'Todas'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Todas
+          </button>
+          <button 
+            [class.active]="filtroCategoria === 'Fuerza'" 
+            (click)="filtroCategoria = 'Fuerza'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Fuerza
+          </button>
+          <button 
+            [class.active]="filtroCategoria === 'Cardio/HIIT'" 
+            (click)="filtroCategoria = 'Cardio/HIIT'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Cardio/HIIT
+          </button>
+          <button 
+            [class.active]="filtroCategoria === 'Yoga/Flexibilidad'" 
+            (click)="filtroCategoria = 'Yoga/Flexibilidad'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            Yoga/Flex
+          </button>
+          <button 
+            [class.active]="filtroCategoria === 'CrossFit'" 
+            (click)="filtroCategoria = 'CrossFit'; aplicarFiltros()"
+            class="btn-pill"
+          >
+            CrossFit
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-link" (click)="limpiarFiltros()" *ngIf="terminoBusqueda || filtroNivel !== 'Todos' || filtroCategoria !== 'Todas'">
+        Limpiar Filtros
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="cargando">
+    <div class="spinner"></div>
+    <p>Cargando rutinas...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!cargando && rutinasFiltradas.length === 0">
+    <div class="empty-icon">🏋️‍♂️💨</div>
+    <h3>No se encontraron rutinas</h3>
+    <p>Prueba a cambiar los términos de búsqueda o a restablecer los filtros aplicados.</p>
+    <button class="btn btn-secondary btn-sm" (click)="limpiarFiltros()">Restablecer Filtros</button>
+  </div>
+
+  <!-- Routines Grid -->
+  <div class="rutinas-grid" *ngIf="!cargando && rutinasFiltradas.length > 0">
+    <div class="rutina-card" *ngFor="let rutina of rutinasFiltradas" (click)="seleccionarRutina(rutina)">
+      <div class="rutina-card-header">
+        <span [class]="obtenerClaseNivel(rutina.nivel)">{{ rutina.nivel }}</span>
+        <span class="categoria-badge">{{ rutina.categoria }}</span>
+      </div>
+      <h3 class="rutina-name">{{ rutina.nombre }}</h3>
+      <p class="rutina-desc">{{ rutina.descripcion | slice:0:100 }}{{ rutina.descripcion.length > 100 ? '...' : '' }}</p>
+      
+      <div class="rutina-meta">
+        <div class="meta-item">
+          <span class="meta-icon">⏱️</span>
+          <span>{{ rutina.duracionMinutos }} min</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-icon">🔥</span>
+          <span>{{ rutina.caloriasEstimadas }} kcal</span>
+        </div>
+      </div>
+
+      <div class="rutina-card-footer">
+        <button class="btn-card-action">Ver Guía de Ejercicios →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal Dialog -->
+  <div class="modal-backdrop" *ngIf="rutinaSeleccionada" (click)="cerrarDetalle()">
+    <div class="modal-content animate-slide-up" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span [class]="obtenerClaseNivel(rutinaSeleccionada.nivel)">{{ rutinaSeleccionada.nivel }}</span>
+          <span class="categoria-badge modal-cat">{{ rutinaSeleccionada.categoria }}</span>
+          <h2 class="modal-title">{{ rutinaSeleccionada.nombre }}</h2>
+        </div>
+        <button class="btn-close-modal" (click)="cerrarDetalle()">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <p class="modal-desc">{{ rutinaSeleccionada.descripcion }}</p>
+
+        <div class="modal-meta-grid">
+          <div class="meta-box">
+            <span class="box-icon">⏱️</span>
+            <div>
+              <span class="box-label">Duración</span>
+              <span class="box-value">{{ rutinaSeleccionada.duracionMinutos }} minutos</span>
+            </div>
+          </div>
+          <div class="meta-box">
+            <span class="box-icon">🔥</span>
+            <div>
+              <span class="box-label">Consumo Estimado</span>
+              <span class="box-value">{{ rutinaSeleccionada.caloriasEstimadas }} calorías</span>
+            </div>
+          </div>
+          <div class="meta-box">
+            <span class="box-icon">🛠️</span>
+            <div>
+              <span class="box-label">Equipamiento</span>
+              <span class="box-value">{{ rutinaSeleccionada.equipamiento.join(', ') }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ejercicios-section">
+          <h3>Guía de Ejercicios y Repeticiones</h3>
+          <div class="table-responsive">
+            <table class="ejercicios-table">
+              <thead>
+                <tr>
+                  <th>Ejercicio</th>
+                  <th>Series</th>
+                  <th>Repeticiones / Tiempo</th>
+                  <th>Descanso</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ej of rutinaSeleccionada.ejercicios; let i = index">
+                  <td class="col-name"><span class="step-num">{{ i + 1 }}</span> {{ ej.nombre }}</td>
+                  <td><span class="badge-series">{{ ej.series }}</span></td>
+                  <td>{{ ej.repeticiones }}</td>
+                  <td><span class="descanso-text">{{ ej.descanso }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="cerrarDetalle()">Cerrar</button>
+        <button class="btn btn-primary" (click)="cerrarDetalle()" routerLink="/fitness/planes" *ngIf="false">Comenzar Plan</button>
+      </div>
+    </div>
+  </div>
+</div>

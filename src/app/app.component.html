@@ -1,0 +1,54 @@
+<div class="app-layout">
+  <!-- Navigation Header -->
+  <header class="navbar-header">
+    <div class="navbar-container">
+      <div class="logo" routerLink="/fitness/inicio">
+        <span class="logo-emoji">🏋️‍♂️</span>
+        <div class="logo-text-group">
+          <span class="logo-title">FitLife</span>
+          <span class="logo-subtitle">STUDIO</span>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="mobile-toggle" (click)="toggleMenu()">
+        <span class="bar" [class.open]="menuAbierto"></span>
+        <span class="bar" [class.open]="menuAbierto"></span>
+        <span class="bar" [class.open]="menuAbierto"></span>
+      </button>
+
+      <!-- Navigation Links -->
+      <nav class="nav-links" [class.mobile-open]="menuAbierto">
+        <a routerLink="/fitness/inicio" routerLinkActive="active-route" (click)="cerrarMenu()">Inicio</a>
+        <a routerLink="/fitness/rutinas" routerLinkActive="active-route" (click)="cerrarMenu()">Rutinas</a>
+        <a routerLink="/fitness/planes" routerLinkActive="active-route" (click)="cerrarMenu()">Planes</a>
+        <a routerLink="/fitness/contacto" routerLinkActive="active-route" (click)="cerrarMenu()">Contacto</a>
+        <button class="btn btn-sm btn-accent nav-cta" routerLink="/fitness/planes" (click)="cerrarMenu()">Unirse Ahora</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Routing Content -->
+  <main class="content-body">
+    <div class="page-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <span class="logo-emoji">🏋️‍♂️</span>
+        <span class="logo-title">FitLife Studio</span>
+      </div>
+      <p class="footer-text">
+        El portal web de entrenamiento definitivo. Supera tus límites, alcanza tus objetivos de salud y bienestar.
+      </p>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">
+        &copy; 2026 FitLife Studio. S13 | AP7 - Reto Práctico - Navegación Web con Routing en Angular.
+      </p>
+    </div>
+  </footer>
+</div>

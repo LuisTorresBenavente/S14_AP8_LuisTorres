@@ -1,0 +1,229 @@
+.inicio-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  padding: 80px 40px;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 600px;
+  z-index: 2;
+}
+
+.hero-badge {
+  background-color: rgba(212, 255, 0, 0.15);
+  color: #d4ff00;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: inline-block;
+  margin-bottom: 20px;
+  border: 1px solid rgba(212, 255, 0, 0.3);
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 850;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0 0 20px 0;
+  letter-spacing: -1px;
+}
+
+.text-highlight {
+  color: #d4ff00;
+  text-shadow: 0 0 20px rgba(212, 255, 0, 0.4);
+}
+
+.hero-description {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin-bottom: 35px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Statistics */
+.stats-section {
+  padding: 20px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(212, 255, 0, 0.3);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 5px 0;
+  background: linear-gradient(to right, #ffffff, #d4ff00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Benefits Section */
+.benefits-section {
+  padding: 40px 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 50px auto;
+}
+
+.section-subtitle {
+  color: #10b981;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 10px 0 15px 0;
+}
+
+.section-desc {
+  color: #94a3b8;
+  font-size: 1.05rem;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.benefit-card {
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 30px;
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-icon {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.benefit-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+}
+
+.benefit-text {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 20px 0;
+}
+
+.cta-card {
+  background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
+  border-radius: 16px;
+  padding: 50px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cta-content h2 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 850;
+  margin: 0 0 10px 0;
+}
+
+.cta-content p {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 20px;
+    min-height: auto;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .cta-card {
+    padding: 30px 20px;
+    text-align: center;
+    justify-content: center;
+  }
+}

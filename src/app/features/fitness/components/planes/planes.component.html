@@ -1,0 +1,172 @@
+<div class="planes-container animate-fade-in">
+  <div class="section-header">
+    <span class="section-subtitle">Membresías Hechas a tu Medida</span>
+    <h1 class="section-title">PLANES DE SOCIO</h1>
+    <p class="section-desc">Selecciona la membresía que mejor se alinee con tu estilo de vida y objetivos. ¡Comienza hoy!</p>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="cargando">
+    <div class="spinner"></div>
+    <p>Cargando planes de membresía...</p>
+  </div>
+
+  <!-- Planes Grid -->
+  <div class="planes-grid" *ngIf="!cargando">
+    <div 
+      class="plan-card" 
+      *ngFor="let plan of planes" 
+      [class.popular-card]="plan.popular"
+      [style.border-top-color]="plan.colorHex"
+    >
+      <div class="popular-ribbon" *ngIf="plan.popular">Recomendado</div>
+      
+      <div class="plan-header">
+        <h3 class="plan-name">{{ plan.nombre }}</h3>
+        <div class="plan-price-wrapper">
+          <span class="currency">$</span>
+          <span class="price">{{ plan.precio }}</span>
+          <span class="duration">/{{ plan.duracion }}</span>
+        </div>
+      </div>
+
+      <ul class="plan-features">
+        <li *ngFor="let feature of plan.caracteristicas">
+          <span class="check-icon">✓</span>
+          <span>{{ feature }}</span>
+        </li>
+      </ul>
+
+      <div class="plan-footer">
+        <button 
+          class="btn" 
+          [class.btn-primary]="plan.popular" 
+          [class.btn-secondary]="!plan.popular"
+          (click)="abrirInscripcion(plan)"
+        >
+          Adquirir Plan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Modal -->
+  <div class="modal-backdrop" *ngIf="mostrarModalInscripcion" (click)="cerrarModal()">
+    <div class="modal-content animate-slide-up" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span class="modal-subtitle">Pre-inscripción Online</span>
+          <h2 class="modal-title">Solicitar: {{ planSeleccionado?.nombre }}</h2>
+        </div>
+        <button class="btn-close-modal" (click)="cerrarModal()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Success message -->
+        <div class="success-alert" *ngIf="inscripcionExitosa">
+          <div class="success-icon">🎉</div>
+          <h3>¡Solicitud Recibida con Éxito!</h3>
+          <p>Tu pre-inscripción para el <strong>{{ planSeleccionado?.nombre }}</strong> ha sido guardada. Uno de nuestros entrenadores te contactará al teléfono o correo provisto en las próximas 24 horas.</p>
+        </div>
+
+        <!-- Pre-inscription Form -->
+        <form [formGroup]="inscripcionForm" (ngSubmit)="enviarInscripcion()" *ngIf="!inscripcionExitosa" class="fitness-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="planNombre">Plan Elegido:</label>
+              <input 
+                type="text" 
+                id="planNombre" 
+                formControlName="planNombre" 
+                class="form-control readonly-input" 
+                readonly
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="nombreCliente">Nombre Completo:</label>
+            <input 
+              type="text" 
+              id="nombreCliente" 
+              formControlName="nombreCliente" 
+              placeholder="Ingresa tu nombre y apellido (ej. Juan Pérez)"
+              class="form-control"
+              [class.is-invalid]="campoInvalido('nombreCliente')"
+            >
+            <div class="invalid-feedback" *ngIf="campoInvalido('nombreCliente')">
+              {{ obtenerError('nombreCliente') }}
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="emailCliente">Correo Electrónico:</label>
+              <input 
+                type="email" 
+                id="emailCliente" 
+                formControlName="emailCliente" 
+                placeholder="ejemplo@correo.com"
+                class="form-control"
+                [class.is-invalid]="campoInvalido('emailCliente')"
+              >
+              <div class="invalid-feedback" *ngIf="campoInvalido('emailCliente')">
+                {{ obtenerError('emailCliente') }}
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="telefonoCliente">Teléfono Móvil (9 dígitos):</label>
+              <input 
+                type="text" 
+                id="telefonoCliente" 
+                formControlName="telefonoCliente" 
+                placeholder="987654321"
+                class="form-control"
+                [class.is-invalid]="campoInvalido('telefonoCliente')"
+              >
+              <div class="invalid-feedback" *ngIf="campoInvalido('telefonoCliente')">
+                {{ obtenerError('telefonoCliente') }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="objetivoPrincipal">Objetivo Fitness Principal:</label>
+            <select 
+              id="objetivoPrincipal" 
+              formControlName="objetivoPrincipal" 
+              class="form-control"
+              [class.is-invalid]="campoInvalido('objetivoPrincipal')"
+            >
+              <option value="" disabled selected>-- Selecciona un objetivo --</option>
+              <option value="Perder peso">Perder peso / Definición</option>
+              <option value="Ganar masa muscular">Ganar masa muscular / Hipertrofia</option>
+              <option value="Resistencia">Resistencia / Acondicionamiento cardiovascular</option>
+              <option value="Salud general">Salud y bienestar general</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="campoInvalido('objetivoPrincipal')">
+              {{ obtenerError('objetivoPrincipal') }}
+            </div>
+          </div>
+
+          <div class="form-checkbox-group">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="terminos">
+              <span class="checkmark"></span>
+              Acepto los términos, condiciones y la política de tratamiento de datos personales de FitLife Studio.
+            </label>
+            <div class="invalid-feedback block-error" *ngIf="campoInvalido('terminos')">
+              Debes aceptar los términos para pre-inscribirte.
+            </div>
+          </div>
+
+          <div class="form-actions-right">
+            <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="inscripcionForm.invalid">Completar Inscripción</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
