@@ -4,6 +4,9 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { RutinasComponent } from './components/rutinas/rutinas.component';
 import { PlanesComponent } from './components/planes/planes.component';
 import { ContactoComponent } from './components/contacto/contacto.component';
+import { EncargadoComponent } from './components/encargado/encargado.component';
+import { LoginComponent } from './components/login/login.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -12,20 +15,33 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: 'inicio',
-    component: InicioComponent
+    component: InicioComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'rutinas',
-    component: RutinasComponent
+    component: RutinasComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'planes',
-    component: PlanesComponent
+    component: PlanesComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'contacto',
-    component: ContactoComponent
+    component: ContactoComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'encargado',
+    component: EncargadoComponent,
+    canActivate: [authGuard]
   }
 ];
 

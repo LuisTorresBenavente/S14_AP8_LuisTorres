@@ -2,7 +2,7 @@
   <!-- Navigation Header -->
   <header class="navbar-header">
     <div class="navbar-container">
-      <div class="logo" routerLink="/fitness/inicio">
+      <div class="logo" [routerLink]="isAuthenticated ? '/fitness/inicio' : '/fitness/login'">
         <span class="logo-emoji">🏋️‍♂️</span>
         <div class="logo-text-group">
           <span class="logo-title">FitLife</span>
@@ -10,20 +10,21 @@
         </div>
       </div>
 
-      <!-- Mobile Menu Toggle Button -->
-      <button class="mobile-toggle" (click)="toggleMenu()">
+      <!-- Mobile Menu Toggle Button (Solo si está autenticado) -->
+      <button *ngIf="isAuthenticated" class="mobile-toggle" (click)="toggleMenu()">
         <span class="bar" [class.open]="menuAbierto"></span>
         <span class="bar" [class.open]="menuAbierto"></span>
         <span class="bar" [class.open]="menuAbierto"></span>
       </button>
 
-      <!-- Navigation Links -->
-      <nav class="nav-links" [class.mobile-open]="menuAbierto">
+      <!-- Navigation Links (Solo si está autenticado) -->
+      <nav *ngIf="isAuthenticated" class="nav-links" [class.mobile-open]="menuAbierto">
         <a routerLink="/fitness/inicio" routerLinkActive="active-route" (click)="cerrarMenu()">Inicio</a>
         <a routerLink="/fitness/rutinas" routerLinkActive="active-route" (click)="cerrarMenu()">Rutinas</a>
         <a routerLink="/fitness/planes" routerLinkActive="active-route" (click)="cerrarMenu()">Planes</a>
         <a routerLink="/fitness/contacto" routerLinkActive="active-route" (click)="cerrarMenu()">Contacto</a>
         <button class="btn btn-sm btn-accent nav-cta" routerLink="/fitness/planes" (click)="cerrarMenu()">Unirse Ahora</button>
+        <button class="btn btn-sm btn-secondary logout-btn" (click)="cerrarSesion()">Cerrar Sesión</button>
       </nav>
     </div>
   </header>
@@ -35,8 +36,8 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="app-footer">
+  <!-- Footer (Solo si está autenticado) -->
+  <footer *ngIf="isAuthenticated" class="app-footer">
     <div class="footer-container">
       <div class="footer-logo">
         <span class="logo-emoji">🏋️‍♂️</span>
@@ -47,7 +48,7 @@
       </p>
       <div class="footer-divider"></div>
       <p class="footer-copy">
-        &copy; 2026 FitLife Studio. S13 | AP7 - Reto Práctico - Navegación Web con Routing en Angular.
+        &copy; 2026 FitLife Studio. S14 | AP8 - Reto Práctico - Integración de Autenticación y Login en Angular.
       </p>
     </div>
   </footer>

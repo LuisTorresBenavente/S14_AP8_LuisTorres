@@ -1,0 +1,71 @@
+<div class="login-container animate-fade-in">
+  <div class="login-card">
+    <div class="login-header">
+      <span class="login-logo-emoji">🏋️‍♂️</span>
+      <h2 class="login-title">FitLife <span class="accent-text">STUDIO</span></h2>
+      <p class="login-subtitle">Inicia sesión para acceder a tu portal fitness</p>
+    </div>
+
+    <!-- Mensaje de error por credenciales incorrectas -->
+    <div *ngIf="errorMensaje" class="alert alert-danger animate-fade-in">
+      <span class="alert-icon">⚠️</span>
+      <span class="alert-text">{{ errorMensaje }}</span>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Campo: Correo electrónico -->
+      <div class="form-group">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✉️</span>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [class.is-invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+            placeholder="ejemplo@correo.com"
+            autocomplete="email"
+          />
+        </div>
+        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="invalid-feedback animate-fade-in">
+          {{ getErrorMessage('email') }}
+        </div>
+      </div>
+
+      <!-- Campo: Contraseña -->
+      <div class="form-group">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [class.is-invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            placeholder="Mínimo 6 caracteres"
+            autocomplete="current-password"
+          />
+        </div>
+        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="invalid-feedback animate-fade-in">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+
+      <!-- Nota de credenciales de prueba -->
+      <div class="credentials-tip">
+        <span class="tip-icon">💡</span>
+        <span class="tip-text">Credenciales de prueba: <strong>admin&#64;miapp.com</strong> / <strong>123456</strong></span>
+      </div>
+
+      <!-- Botón de inicio de sesión -->
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid || cargando">
+        <span *ngIf="!cargando">Iniciar Sesión</span>
+        <span *ngIf="cargando" class="spinner-container">
+          <span class="spinner"></span> Iniciando...
+        </span>
+      </button>
+    </form>
+  </div>
+</div>

@@ -8,6 +8,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { RutinasComponent } from './components/rutinas/rutinas.component';
 import { PlanesComponent } from './components/planes/planes.component';
 import { ContactoComponent } from './components/contacto/contacto.component';
+import { EncargadoComponent } from './components/encargado/encargado.component';
+import { LoginComponent } from './components/login/login.component';
 
 // Servicios
 import { FitnessService } from './services/fitness.service';
@@ -17,7 +19,9 @@ import { FitnessService } from './services/fitness.service';
     InicioComponent,
     RutinasComponent,
     PlanesComponent,
-    ContactoComponent
+    ContactoComponent,
+    EncargadoComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
