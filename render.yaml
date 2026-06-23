@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: fitlife-frontend
+    buildCommand: npm run build
+    publishDir: dist/frontend-base/browser
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
